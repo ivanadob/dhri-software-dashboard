@@ -1,0 +1,45 @@
+---
+import "@fontsource/press-start-2p";
+import "tailwindcss/tailwind.css";
+import "@/styles/index.css";
+
+import { getCollection, getEntry } from "astro:content";
+
+const allSoftware = await getCollection("software");
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Software Dashboard</title>
+	</head>
+	<body>
+		<div class="container mx-auto grid w-full gap-8">
+			<h1>Software Dashboard</h1>
+			<h2>Stuff we are proud of.</h2>
+			<ul class="grid grid-cols-2 gap-8" role="list">
+				{
+					allSoftware.map((software) => {
+						return (
+							<li>
+								<article class="grid gap-4">
+									<h3>{software.data.title}</h3>
+									<p>{software.data.summary}</p>
+									<a
+										class="underline underline-offset-4 hover:no-underline"
+										href={software.data.repo}
+									>
+										Git repository
+									</a>
+								</article>
+							</li>
+						);
+					})
+				}
+			</ul>
+		</div>
+	</body>
+</html>
