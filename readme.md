@@ -4,8 +4,10 @@ a collection of software products we are proud of.
 
 ## how to add content
 
-create a new markdown file in [`src/content/software`](src/content/software) from the
-[template](src/content/software/_template.md), and fill out all the fields.
+- create a new feature branch
+- create a new markdown file in [`src/content/software`](src/content/software) from the
+  [template](src/content/software/_template.md), and fill out all the fields.
+- create a pull request
 
 ## how to run
 
