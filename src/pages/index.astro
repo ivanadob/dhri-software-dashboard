@@ -3,7 +3,7 @@ import "@fontsource/press-start-2p";
 import "tailwindcss/tailwind.css";
 import "@/styles/index.css";
 
-import { getCollection, getEntry } from "astro:content";
+import { getCollection } from "astro:content";
 
 const allSoftware = await getCollection("software");
 ---
@@ -11,9 +11,8 @@ const allSoftware = await getCollection("software");
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/icon.svg" />
 		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
 		<title>Software Dashboard</title>
 	</head>
 	<body>
