@@ -1,59 +1,53 @@
 ---
-import "@fontsource/press-start-2p";
-import "tailwindcss/tailwind.css";
-import "@/styles/index.css";
-
 import { getCollection } from "astro:content";
+
+import MainContent from "@/components/main-content.astro";
+import PageLayout from "@/layouts/page.astro";
 
 const allSoftware = await getCollection("software");
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/icon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Software Dashboard</title>
-	</head>
-	<body>
-		<div class="container mx-auto grid w-full gap-8">
+<PageLayout title="Home">
+	<MainContent class="grid gap-y-8 px-4 py-8">
+		<div class="grid gap-y-4">
 			<h1>Software Dashboard</h1>
 			<h2>Stuff we are proud of.</h2>
-			<h3>
-				<a href="https://github.com/acdh-oeaw/dhri-software-dashboard"
-					>https://github.com/acdh-oeaw/dhri-software-dashboard</a
-				>
-			</h3>
-			<ul class="grid grid-cols-2 gap-8" role="list">
-				{
-					allSoftware.map((software) => {
-						return (
-							<li>
-								<article class="grid gap-4">
-									<h3>{software.data.title}</h3>
-									<p>{software.data.summary}</p>
+			<div>
+				<a href="https://github.com/acdh-oeaw/dhri-software-dashboard">
+					https://github.com/acdh-oeaw/dhri-software-dashboard
+				</a>
+			</div>
+		</div>
+
+		<ul class="grid grid-cols-2 gap-8" role="list">
+			{
+				allSoftware.map((software) => {
+					return (
+						<li>
+							<article class="grid gap-4">
+								<h3>{software.data.title}</h3>
+								<p>{software.data.summary}</p>
+								<a
+									class="underline underline-offset-4 hover:no-underline"
+									href={software.data.repo}
+								>
+									Git repository
+								</a>
+								{software.data.demo ? (
 									<a
 										class="underline underline-offset-4 hover:no-underline"
-										href={software.data.repo}
+										href={software.data.demo}
 									>
-										Git repository
+										Demo
 									</a>
-									{software.data.demo ? (
-										<a
-											class="underline underline-offset-4 hover:no-underline"
-											href={software.data.demo}
-										>
-											Demo
-										</a>
-									) : (
-										<span>Demo not available</span>
-									)}
-								</article>
-							</li>
-						);
-					})
-				}
-			</ul>
-		</div>
-	</body>
-</html>
+								) : (
+									<span class="italic text-neutral-500">Demo not available</span>
+								)}
+							</article>
+						</li>
+					);
+				})
+			}
+		</ul>
+	</MainContent>
+</PageLayout>

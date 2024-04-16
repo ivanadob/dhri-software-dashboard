@@ -39,9 +39,15 @@
 	"typescript.enablePromptUseWorkspaceTsdk": true,
 	"typescript.inlayHints.parameterNames.enabled": "all",
 	"typescript.preferences.importModuleSpecifier": "non-relative",
+	"typescript.preferences.preferTypeOnlyAutoImports": true,
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"workbench.editor.labelFormat": "medium",
-	"[markdoc][markdown][mdx]": {
+	"workbench.tree.enableStickyScroll": true,
+	"[markdown]": {
+		"editor.wordWrap": "on"
+	},
+	"[mdx]": {
+		"editor.formatOnSave": false,
 		"editor.wordWrap": "on"
 	}
 }
