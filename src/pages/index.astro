@@ -13,13 +13,16 @@ const allSoftware = await getCollection("software");
 			<h1>Software Dashboard</h1>
 			<h2>Stuff we are proud of.</h2>
 			<div>
-				<a href="https://github.com/acdh-oeaw/dhri-software-dashboard">
+				<a
+					class="underline underline-offset-4 hover:no-underline"
+					href="https://github.com/acdh-oeaw/dhri-software-dashboard"
+				>
 					https://github.com/acdh-oeaw/dhri-software-dashboard
 				</a>
 			</div>
 		</div>
 
-		<ul class="grid grid-cols-2 gap-8" role="list">
+		<ul class="grid gap-8 lg:grid-cols-2" role="list">
 			{
 				allSoftware.map((software) => {
 					return (
