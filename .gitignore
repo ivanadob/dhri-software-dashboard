@@ -25,6 +25,9 @@ node_modules/
 dist/
 .astro/
 
+# test
+/coverage/
+
 # playwright
 /blob-report/
 /playwright/.cache/
