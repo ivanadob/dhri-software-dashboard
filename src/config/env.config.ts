@@ -1,16 +1,20 @@
 import { log } from "@acdh-oeaw/lib";
-import { createEnv } from "@acdh-oeaw/validate-env";
+import { createEnv } from "@acdh-oeaw/validate-env/astro";
 import * as v from "valibot";
 
+const environment = import.meta.env.SSR
+	? Object.assign({}, process.env, import.meta.env)
+	: import.meta.env;
+
 export const env = createEnv({
-	prefix: "PUBLIC_",
-	shared(input) {
+	environment,
+	system(input) {
 		const Schema = v.object({
 			NODE_ENV: v.optional(v.picklist(["development", "production", "test"]), "production"),
 		});
 		return v.parse(Schema, input);
 	},
-	server(input) {
+	private(input) {
 		const Schema = v.object({
 			ENV_VALIDATION: v.optional(v.picklist(["disabled", "enabled"])),
 			KEYSTATIC_GITHUB_CLIENT_ID: v.optional(v.string([v.minLength(1)])),
@@ -19,7 +23,7 @@ export const env = createEnv({
 		});
 		return v.parse(Schema, input);
 	},
-	client(input) {
+	public(input) {
 		const Schema = v.object({
 			PUBLIC_APP_BASE_PATH: v.optional(v.string([v.minLength(1)])),
 			PUBLIC_APP_BASE_URL: v.string([v.url()]),
@@ -35,8 +39,10 @@ export const env = createEnv({
 		});
 		return v.parse(Schema, input);
 	},
-	environment: import.meta.env as Record<string, unknown>,
-	skip: import.meta.env.ENV_VALIDATION === "disabled",
+	validation: v.parse(
+		v.optional(v.picklist(["disabled", "enabled", "public"]), "enabled"),
+		environment.ENV_VALIDATION,
+	),
 	onError(error) {
 		if (error instanceof v.ValiError) {
 			const message = "Invalid environment variables";
