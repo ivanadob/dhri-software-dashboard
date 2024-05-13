@@ -1,8 +1,8 @@
-// import mdx from "@astrojs/mdx";
+import mdx from "@astrojs/mdx";
 import node from "@astrojs/node";
-// import react from "@astrojs/react";
+import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-// import keystatic from "@keystatic/astro";
+import keystatic from "@keystatic/astro";
 import { defineConfig } from "astro/config";
 import icon from "astro-icon";
 import { loadEnv } from "vite";
@@ -18,7 +18,7 @@ export default defineConfig({
 		icon({
 			/** @see https://www.astroicon.dev/reference/configuration/#include */
 			include: {
-				lucide: ["*"],
+				lucide: ["chevron-down", "menu", "message-circle", "search", "x"],
 			},
 			svgoOptions: {
 				multipass: true,
@@ -34,9 +34,9 @@ export default defineConfig({
 				],
 			},
 		}),
-		// keystatic(),
-		// mdx(),
-		// react(),
+		keystatic(),
+		mdx(),
+		react(),
 		sitemap(),
 	],
 	output: "hybrid",
@@ -44,6 +44,13 @@ export default defineConfig({
 		defaultStrategy: "hover",
 		prefetchAll: true,
 	},
+	redirects: {
+		"/admin": {
+			destination: "/keystatic",
+			status: 307,
+		},
+	},
+	scopedStyleStrategy: "where",
 	server: {
 		port: 3000,
 	},

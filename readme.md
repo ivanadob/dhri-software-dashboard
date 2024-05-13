@@ -6,7 +6,7 @@ a collection of software products we are proud of.
 
 - create a new feature branch
 - create a new markdown file in [`src/content/software`](src/content/software) from the
-  [template](src/content/software/_template.md), and fill out all
+  [template](src/content/_software-template.md), and fill out all
   [the fields](src/content/config.ts).
 - create a pull request
 
