@@ -3,8 +3,8 @@
 # using alpine base image to avoid `sharp` memory leaks.
 # @see https://sharp.pixelplumbing.com/install#linux-memory-allocator
 
-# build
-FROM node:20-alpine AS build
+# base
+FROM node:20-alpine AS base
 
 RUN corepack enable
 
@@ -16,7 +16,13 @@ USER node
 COPY --chown=node:node .npmrc package.json pnpm-lock.yaml ./
 RUN sed -i "s/use-node-version/# use-node-version/" .npmrc
 
-RUN pnpm fetch
+RUN pnpm fetch --prod
+RUN pnpm install --frozen-lockfile --ignore-scripts --offline --prod
+
+# build
+FROM base as build
+
+RUN pnpm fetch --dev
 
 COPY --chown=node:node ./ ./
 RUN sed -i "s/use-node-version/# use-node-version/" .npmrc
@@ -32,11 +38,20 @@ ARG PUBLIC_MATOMO_BASE_URL
 ARG PUBLIC_MATOMO_ID
 ARG PUBLIC_REDMINE_ID
 
+# disable validation for runtime environment variables
+ENV ENV_VALIDATION=public
+
 RUN pnpm install --frozen-lockfile --offline
 
 ENV NODE_ENV=production
 
-RUN pnpm run build
+RUN --mount=type=secret,id=KEYSTATIC_GITHUB_CLIENT_ID,uid=1000 \
+		--mount=type=secret,id=KEYSTATIC_GITHUB_CLIENT_SECRET,uid=1000 \
+		--mount=type=secret,id=KEYSTATIC_SECRET,uid=1000 \
+			KEYSTATIC_GITHUB_CLIENT_ID=$(cat /run/secrets/KEYSTATIC_GITHUB_CLIENT_ID) \
+			KEYSTATIC_GITHUB_CLIENT_SECRET=$(cat /run/secrets/KEYSTATIC_GITHUB_CLIENT_SECRET) \
+			KEYSTATIC_SECRET=$(cat /run/secrets/KEYSTATIC_SECRET) \
+		pnpm run build
 
 # serve
 FROM node:20-alpine AS serve
@@ -46,10 +61,10 @@ WORKDIR /app
 
 USER node
 
+COPY --from=base --chown=node:node /app/node_modules ./node_modules
 COPY --from=build --chown=node:node /app/dist ./dist
 
 ENV NODE_ENV=production
-
 ENV HOST=0.0.0.0
 ENV PORT=3000
 
