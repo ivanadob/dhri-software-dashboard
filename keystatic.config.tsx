@@ -41,28 +41,34 @@ export default config({
 				title: fields.slug({
 					name: {
 						label: "Title",
+						description: "Project title",
 						validation: { isRequired: true },
 					},
 				}),
 				repo: fields.text({
 					label: "Repo",
+					description: "Code repository",
 					validation: { isRequired: true },
 				}),
 				summary: fields.text({
 					label: "Summary",
+					description: "Short description",
 					validation: { isRequired: true },
 				}),
 				url: fields.url({
 					label: "URL",
+					description: "Project website",
 					validation: { isRequired: false },
 				}),
 				demo: fields.url({
 					label: "Demo",
+					description: "Demo website",
 					validation: { isRequired: false },
 				}),
 				content: fields.mdx({
 					extension: "md",
 					label: "Content",
+					description: "Project description",
 				}),
 			},
 		}),
