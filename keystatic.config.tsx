@@ -53,6 +53,7 @@ export default config({
 				summary: fields.text({
 					label: "Summary",
 					description: "Short description",
+					multiline: true,
 					validation: { isRequired: true },
 				}),
 				url: fields.url({
