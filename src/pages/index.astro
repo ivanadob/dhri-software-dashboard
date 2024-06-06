@@ -10,11 +10,11 @@ const allSoftware = await getCollection("software");
 <PageLayout title="Home">
 	<MainContent class="grid gap-y-16 px-4 py-16">
 		<div class="grid gap-y-4">
-			<h1 class="text-2xl">Software Dashboard</h1>
+			<h1 class="text-2xl text-neutral-950 dark:text-white">Software Dashboard</h1>
 			<h2>Stuff we are proud of.</h2>
 			<div>
 				<a
-					class="underline underline-offset-4 hover:no-underline"
+					class="underline underline-offset-4 transition hover:text-neutral-950 hover:no-underline dark:hover:text-white"
 					href="https://github.com/acdh-oeaw/dhri-software-dashboard"
 				>
 					https://github.com/acdh-oeaw/dhri-software-dashboard
@@ -22,23 +22,31 @@ const allSoftware = await getCollection("software");
 			</div>
 		</div>
 
-		<ul class="grid gap-8 lg:grid-cols-2" role="list">
+		<ul class="grid gap-x-12 gap-y-16 lg:grid-cols-2" role="list">
 			{
 				allSoftware.map((software) => {
 					return (
 						<li>
 							<article class="grid gap-4">
-								<h3>{software.data.title}</h3>
+								<h3 class="text-lg text-neutral-950 dark:text-white">{software.data.title}</h3>
 								<p>{software.data.summary}</p>
+								{software.data.url ? (
+									<a
+										class="underline underline-offset-4 transition hover:text-neutral-950 hover:no-underline dark:hover:text-white"
+										href={software.data.url}
+									>
+										Website
+									</a>
+								) : null}
 								<a
-									class="underline underline-offset-4 hover:no-underline"
+									class="underline underline-offset-4 transition hover:text-neutral-950 hover:no-underline dark:hover:text-white"
 									href={software.data.repo}
 								>
 									Git repository
 								</a>
 								{software.data.demo ? (
 									<a
-										class="underline underline-offset-4 hover:no-underline"
+										class="underline underline-offset-4 transition hover:text-neutral-950 hover:no-underline dark:hover:text-white"
 										href={software.data.demo}
 									>
 										Demo
