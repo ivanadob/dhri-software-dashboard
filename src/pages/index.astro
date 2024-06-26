@@ -8,10 +8,68 @@ const allSoftware = await getCollection("software");
 ---
 
 <PageLayout title="Home">
-	<MainContent class="grid gap-y-16 px-4 py-16">
-		<div class="grid gap-y-4">
-			<h1 class="text-2xl text-neutral-950 dark:text-white">Software Dashboard</h1>
-			<h2>Stuff we are proud of.</h2>
+	<MainContent class="mx-auto mt-10 grid gap-y-4 border-2 border-t-red-600 bg-slate-50 px-3">
+		<div class="">
+			<h1 class="text-2xl text-neutral-950 dark:text-white">DHRI Software Dashboard</h1>
+			<h2>Sofware made in ACDH-CH by the DH Research&Infrastructure Unit</h2>
+		</div>
+
+		<ul class="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-8 p-0" role="list">
+			{
+				allSoftware.map((software) => {
+					return (
+						<li>
+							<article class="grid gap-4 rounded-b-md border-2 border-t-[3px] border-t-red-600 bg-white shadow-sm">
+								<img
+									src="https://www.oeaw.ac.at/fileadmin/Institute/ACDH/img/Tools/Tools_ACDH-CH_APIS-App.PNG"
+									class="relative block aspect-[1.4] object-cover"
+									sizes="791px"
+									width="791"
+									alt=""
+								/>
+								<div class="grid gap-2 px-8 py-3">
+									<header>
+										<h3 class="text-xl font-medium text-neutral-950 dark:text-white">
+											<a href={software.data.url} class="hover:underline">
+												{software.data.title}
+											</a>
+										</h3>
+									</header>
+									<p class="text-gray-600">{software.data.summary}</p>
+									<footer class="grid justify-start justify-items-start gap-2 text-neutral-950">
+										{software.data.url ? (
+											<a
+												class="rounded-md border-2 bg-slate-50 px-3 py-1 text-sm transition hover:bg-black hover:text-white dark:hover:text-black"
+												href={software.data.url}
+											>
+												Website
+											</a>
+										) : null}
+										<a
+											class="rounded-md border-2 bg-slate-50 px-3 py-1 text-sm transition hover:bg-black hover:text-white dark:hover:text-black"
+											href={software.data.repo}
+										>
+											Git repository
+										</a>
+										{software.data.demo ? (
+											<a
+												class="rounded-md border-2 bg-slate-50 px-3 py-1 text-sm transition hover:bg-black hover:text-white dark:hover:text-black"
+												href={software.data.demo}
+											>
+												Demo
+											</a>
+										) : (
+											<span class="italic text-neutral-500">Demo not available</span>
+										)}
+									</footer>
+								</div>
+							</article>
+						</li>
+					);
+				})
+			}
+		</ul>
+		<footer>
 			<div>
 				<a
 					class="underline underline-offset-4 transition hover:text-neutral-950 hover:no-underline dark:hover:text-white"
@@ -20,45 +78,6 @@ const allSoftware = await getCollection("software");
 					https://github.com/acdh-oeaw/dhri-software-dashboard
 				</a>
 			</div>
-		</div>
-
-		<ul class="grid gap-x-12 gap-y-16 lg:grid-cols-2" role="list">
-			{
-				allSoftware.map((software) => {
-					return (
-						<li>
-							<article class="grid gap-4">
-								<h3 class="text-lg text-neutral-950 dark:text-white">{software.data.title}</h3>
-								<p>{software.data.summary}</p>
-								{software.data.url ? (
-									<a
-										class="underline underline-offset-4 transition hover:text-neutral-950 hover:no-underline dark:hover:text-white"
-										href={software.data.url}
-									>
-										Website
-									</a>
-								) : null}
-								<a
-									class="underline underline-offset-4 transition hover:text-neutral-950 hover:no-underline dark:hover:text-white"
-									href={software.data.repo}
-								>
-									Git repository
-								</a>
-								{software.data.demo ? (
-									<a
-										class="underline underline-offset-4 transition hover:text-neutral-950 hover:no-underline dark:hover:text-white"
-										href={software.data.demo}
-									>
-										Demo
-									</a>
-								) : (
-									<span class="italic text-neutral-500">Demo not available</span>
-								)}
-							</article>
-						</li>
-					);
-				})
-			}
-		</ul>
+		</footer>
 	</MainContent>
 </PageLayout>
